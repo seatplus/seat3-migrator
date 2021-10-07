@@ -15,16 +15,10 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../auth"
-        }
-    ],
     "require": {
         "php": "^8.0",
         "illuminate/contracts": "^8.37",
-        "seatplus/auth": "*",
+        "seatplus/auth": "^0.9",
         "seatplus/esi-client": "^0.9.3",
         "spatie/data-transfer-object": "^3.7"
     },
