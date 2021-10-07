@@ -8,7 +8,6 @@ use Seatplus\Seat3Migrator\DataTransferObjects\GroupObject;
 
 abstract class AbstractMigratorPipeClass implements MigratorPipeInterface
 {
-
     protected GroupObject $groupObject;
 
     abstract public function execute(): void;

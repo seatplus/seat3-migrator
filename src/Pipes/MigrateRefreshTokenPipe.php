@@ -10,13 +10,11 @@ use Seatplus\Eveapi\Models\RefreshToken;
 
 class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
 {
-
     private Client $httpClient;
     private UpdateRefreshTokenService $update_service;
 
     public function execute(): void
     {
-
         $this->alert('Migrating refresh_tokens');
 
         // Get all non-deleted tokens
@@ -26,18 +24,18 @@ class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
             ->whereNull('deleted_at')
             ->get();
 
-        $this->withProgressBar($refresh_tokens, fn($refreshToken) => $this->migrate($refreshToken));
-
+        $this->withProgressBar($refresh_tokens, fn ($refreshToken) => $this->migrate($refreshToken));
     }
 
     private function migrate($refreshToken)
     {
-        $character_id =  data_get($refreshToken, 'character_id');
+        $character_id = data_get($refreshToken, 'character_id');
 
         $existing_token = RefreshToken::find($character_id);
 
-        if($existing_token) {
+        if ($existing_token) {
             $this->info("Already existing: skipping token for character_id ${character_id}");
+
             return;
         }
 
@@ -52,18 +50,17 @@ class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
         $token = $this->getUpdateService()->getRefreshTokenResponse($authentication);
 
         RefreshToken::updateOrCreate([
-            'character_id' => $character_id
+            'character_id' => $character_id,
         ], [
             'refresh_token' => data_get($token, 'refresh_token'),
-            'token'         => data_get($token, 'access_token'),
-            'expires_on'    => carbon()->addSeconds(data_get($token, 'expires_in')),
+            'token' => data_get($token, 'access_token'),
+            'expires_on' => carbon()->addSeconds(data_get($token, 'expires_in')),
         ]);
-
     }
 
     private function getHttpClient(): Client
     {
-        if(!isset($this->httpClient)) {
+        if (! isset($this->httpClient)) {
             $this->httpClient = new Client();
         }
 
@@ -72,7 +69,7 @@ class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
 
     private function getUpdateService()
     {
-        if(! isset($this->update_service)) {
+        if (! isset($this->update_service)) {
             $this->update_service = (new UpdateRefreshTokenService)->setClient($this->getHttpClient());
         }
 
@@ -94,6 +91,4 @@ class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
     {
         $this->httpClient = $httpClient;
     }
-
-
 }

@@ -6,9 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Pipeline\Pipeline;
 use Seatplus\Seat3Migrator\DataTransferObjects\GroupObject;
 use Seatplus\Seat3Migrator\Pipes\MigrateRefreshTokenPipe;
-use Seatplus\Seat3Migrator\Pipes\MigrateRefreshTokenPipeInterface;
 use Seatplus\Seat3Migrator\Pipes\MigrateUserPipe;
-use Seatplus\Seat3Migrator\Pipes\MigrateUserPipeInterface;
 
 class Seat3MigratorCommand extends Command
 {
@@ -18,11 +16,10 @@ class Seat3MigratorCommand extends Command
 
     public function handle()
     {
-
         $group_id = $this->argument('group_id');
 
-        if(! $group_id) {
-            if(! $this->confirm('You did not select any specific seat group to migrate, is this correct?')) {
+        if (! $group_id) {
+            if (! $this->confirm('You did not select any specific seat group to migrate, is this correct?')) {
                 return;
             }
         } else {
@@ -31,8 +28,9 @@ class Seat3MigratorCommand extends Command
 
         $this->alert('Start migration of a seat3 database into seatplus');
 
-        if(! $this->confirm('Do you wish to continue?')) {
+        if (! $this->confirm('Do you wish to continue?')) {
             $this->error('migration did not start');
+
             return;
         }
 
@@ -43,9 +41,9 @@ class Seat3MigratorCommand extends Command
             ]))
             ->through([
                 MigrateUserPipe::class,
-                MigrateRefreshTokenPipe::class
+                MigrateRefreshTokenPipe::class,
             ])
-            ->then(function() {
+            ->then(function () {
                 $this->newLine();
                 $this->info('processed all pipes');
             });

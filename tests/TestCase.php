@@ -20,7 +20,6 @@ class TestCase extends Orchestra
         );
 
         $this->setupDatabase($this->app);
-
     }
 
     protected function getPackageProviders($app)
@@ -28,7 +27,7 @@ class TestCase extends Orchestra
         return [
             AuthenticationServiceProvider::class,
             Seat3MigratorServiceProvider::class,
-            EveapiServiceProvider::class
+            EveapiServiceProvider::class,
         ];
     }
 

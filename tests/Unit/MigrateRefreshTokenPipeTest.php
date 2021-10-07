@@ -3,17 +3,16 @@
 use Seatplus\Seat3Migrator\DataTransferObjects\GroupObject;
 use Seatplus\Seat3Migrator\Pipes\MigrateRefreshTokenPipe;
 
-beforeEach(function (){
+beforeEach(function () {
     config([
         'seat3-migrator.eve_client_id' => 'id',
-        'seat3-migrator.eve_client_secret' => 'secret'
+        'seat3-migrator.eve_client_secret' => 'secret',
     ]);
 });
 
-afterEach(fn() => Mockery::close());
+afterEach(fn () => Mockery::close());
 
 it('creates refresh_token entries', function () {
-
     setupRefreshTokens(5);
 
     expect(\db()->table('refresh_tokens')->get())->toHaveCount(5);
@@ -21,11 +20,10 @@ it('creates refresh_token entries', function () {
     // create with array
     setupRefreshTokens([1,2]);
 
-    expect(\db()->table('refresh_tokens')->get())->toHaveCount(5+2);
+    expect(\db()->table('refresh_tokens')->get())->toHaveCount(5 + 2);
 });
 
 it('alerts', closure: function () {
-
     $pipe = new MigrateRefreshTokenPipe;
 
     $refresh_token = \Seatplus\Eveapi\Models\RefreshToken::factory()->make();
@@ -35,7 +33,7 @@ it('alerts', closure: function () {
         ->andReturn([
             'refresh_token' => 'bar',
             'access_token' => $refresh_token->token,
-            'expires_in' => 20*60, //20 Minutes
+            'expires_in' => 20 * 60, //20 Minutes
         ]);
 
     $pipe->setUpdateService($mock);
@@ -53,9 +51,8 @@ it('alerts', closure: function () {
     // Assert
 
     expect(\Seatplus\Eveapi\Models\RefreshToken::all())->toHaveCount(0);
-    $pipe->handle($groupObject, fn() => null );
+    $pipe->handle($groupObject, fn () => null);
 
     expect(\Seatplus\Eveapi\Models\RefreshToken::all())
         ->toHaveCount(db()->table('refresh_tokens')->whereNull('deleted_at')->count());
-
 });

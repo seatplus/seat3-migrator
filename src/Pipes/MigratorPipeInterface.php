@@ -3,7 +3,6 @@
 namespace Seatplus\Seat3Migrator\Pipes;
 
 use Closure;
-use Illuminate\Console\Command;
 use Seatplus\Seat3Migrator\Commands\Seat3MigratorCommand;
 use Seatplus\Seat3Migrator\DataTransferObjects\GroupObject;
 

@@ -16,14 +16,13 @@ class GroupObject extends DataTransferObject
 
     public function getCharacterIds()
     {
-        if(!isset($this->character_ids)) {
+        if (! isset($this->character_ids)) {
             $this->character_ids = DB::connection('seat3_backup')
                 ->table('users')
-                ->when($this->group_id, fn(Builder $query) => $query->where('group_id', $this->group_id))
+                ->when($this->group_id, fn (Builder $query) => $query->where('group_id', $this->group_id))
                 ->pluck('id');
         }
 
         return $this->character_ids;
     }
-
 }

@@ -18,7 +18,6 @@ class Seat3MigratorServiceProvider extends ServiceProvider
         $this->commands([
             Seat3MigratorCommand::class,
         ]);
-
     }
 
     public function register()
@@ -28,10 +27,9 @@ class Seat3MigratorServiceProvider extends ServiceProvider
 
     private function mergeConfigurations()
     {
-
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/seat3-migrator.php', 'database.connections'
+            __DIR__ . '/../config/seat3-migrator.php',
+            'database.connections'
         );
-
     }
 }

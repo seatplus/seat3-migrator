@@ -82,12 +82,12 @@ function setupUserDB(int $count, bool $sameGroup = false)
                             )');
 
     $users = collect();
-    $group_id = $sameGroup ? faker()->numberBetween(1,999) : null;
+    $group_id = $sameGroup ? faker()->numberBetween(1, 999) : null;
 
-    for($i = 1; $i <= $count ; $i++) {
+    for ($i = 1; $i <= $count ; $i++) {
         $users->push([
             'id' => faker()->numberBetween(9000000, 98000000),
-            'group_id' => $group_id ?? faker()->numberBetween(1,999),
+            'group_id' => $group_id ?? faker()->numberBetween(1, 999),
             'name' => faker()->name,
             'active' => faker()->boolean,
             'character_owner_hash' => faker()->uuid,
@@ -99,19 +99,17 @@ function setupUserDB(int $count, bool $sameGroup = false)
         ]);
     }
 
-    if($users->count() > 0) {
+    if ($users->count() > 0) {
         \db()->table('users')->insert($users->toArray());
     }
-
 }
 
 function setupRefreshTokens(array|int $ids)
 {
-
     $helper_function = function (int $ids) {
         $collection = collect();
 
-        for($i = 0; $i < $ids; $i++) {
+        for ($i = 0; $i < $ids; $i++) {
             $collection->push(faker()->numberBetween(9000000, 98000000));
         }
 
@@ -152,7 +150,6 @@ function setupRefreshTokens(array|int $ids)
 
     \db()->table('refresh_tokens')
         ->insert($refresh_tokens->toArray());
-
 }
 
 function mockNonVerboseCommand()

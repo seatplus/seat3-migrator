@@ -11,17 +11,14 @@ it('can create users db entries', function () {
 
 
 it('creates users of same group', function () {
-
     setupUserDB(5, true);
 
     $group_id = db()->table('users')->first()->group_id;
 
     expect(db()->table('users')->where('group_id', $group_id)->get())->toHaveCount(5);
-
 });
 
 it('migrates five unique user groups', function () {
-
     setupUserDB(5);
 
     $pipe = new \Seatplus\Seat3Migrator\Pipes\MigrateUserPipe;
@@ -34,7 +31,7 @@ it('migrates five unique user groups', function () {
 
     expect(\Seatplus\Auth\Models\User::all())->toHaveCount(0);
 
-    $pipe->handle($groupObject, fn() => null);
+    $pipe->handle($groupObject, fn () => null);
 
     $numberUsers = db()->table('users')->count();
     expect(\Seatplus\Auth\Models\User::all())->toHaveCount($numberUsers);
@@ -42,7 +39,6 @@ it('migrates five unique user groups', function () {
 });
 
 it('migrates one unique user group with 5 characters', function () {
-
     setupUserDB(5, true);
 
     $pipe = new \Seatplus\Seat3Migrator\Pipes\MigrateUserPipe;
@@ -57,7 +53,7 @@ it('migrates one unique user group with 5 characters', function () {
 
     expect(\Seatplus\Auth\Models\User::all())->toHaveCount(0);
 
-    $pipe->handle($groupObject, fn() => null);
+    $pipe->handle($groupObject, fn () => null);
 
     $numberUsers = db()->table('users')->count();
     expect(\Seatplus\Auth\Models\User::all())->toHaveCount(1);
