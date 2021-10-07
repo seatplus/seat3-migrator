@@ -1,7 +1,7 @@
 <?php
 
 
-namespace VendorName\Skeleton\Tests\Stubs;
+namespace Seatplus\Seat3Migrator\Tests\Integration\Stubs;
 
 use Orchestra\Testbench\Http\Middleware\RedirectIfAuthenticated;
 use Seatplus\Web\Http\Middleware\Authenticate;
