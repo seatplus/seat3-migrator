@@ -1,29 +1,33 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Seatplus\Seat3Migrator\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Seatplus\Auth\AuthenticationServiceProvider;
 use Seatplus\Auth\Models\User;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use Seatplus\Eveapi\EveapiServiceProvider;
+use Seatplus\Seat3Migrator\Seat3MigratorServiceProvider;
 
 class TestCase extends Orchestra
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Seatplus\\Seat3Migrator\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
+
+        $this->setupDatabase($this->app);
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
             AuthenticationServiceProvider::class,
+            Seat3MigratorServiceProvider::class,
+            EveapiServiceProvider::class,
         ];
     }
 
@@ -34,6 +38,12 @@ class TestCase extends Orchestra
         // Use memory SQLite, cleans it self up
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+
+        $app['config']->set('database.connections.seat3_backup', [
             'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',
