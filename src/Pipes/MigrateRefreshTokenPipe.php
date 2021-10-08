@@ -40,8 +40,8 @@ class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
         }
 
         $authentication = new EsiAuthentication([
-            'eve_client_id' => config('seat3-migrator.eve_client_id'),
-            'eve_client_secret' => config('seat3-migrator.eve_client_secret'),
+            'eve_client_id' => config('seat3-migrator.config.eve_client_id'),
+            'eve_client_secret' => config('seat3-migrator.config.eve_client_secret'),
             'access_token' => data_get($refreshToken, 'token'),
             'refresh_token' => data_get($refreshToken, 'refresh_token'),
         ]);
