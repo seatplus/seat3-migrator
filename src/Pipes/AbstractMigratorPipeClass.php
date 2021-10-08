@@ -4,6 +4,7 @@ namespace Seatplus\Seat3Migrator\Pipes;
 
 use Closure;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
 use Seatplus\Seat3Migrator\DataTransferObjects\GroupObject;
 
 abstract class AbstractMigratorPipeClass implements MigratorPipeInterface
@@ -39,5 +40,10 @@ abstract class AbstractMigratorPipeClass implements MigratorPipeInterface
     private function getCommand(): Command
     {
         return $this->groupObject->command;
+    }
+
+    protected function isMissingTable(string $name) : bool
+    {
+        return ! Schema::connection('seat3_backup')->hasTable($name);
     }
 }

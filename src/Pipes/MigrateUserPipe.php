@@ -14,7 +14,7 @@ class MigrateUserPipe extends AbstractMigratorPipeClass
     {
         $this->alert('Start migrating of users');
 
-        $groups = isMissingTable('users') ? collect() : DB::connection('seat3_backup')
+        $groups = $this->isMissingTable('users') ? collect() : DB::connection('seat3_backup')
             ->table('users')
             ->select('name', 'id', 'group_id', 'character_owner_hash')
             ->when($this->groupObject->group_id, fn (Builder $query) => $query->where('group_id', $this->groupObject->group_id))

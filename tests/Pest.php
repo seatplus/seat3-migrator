@@ -13,7 +13,6 @@
 
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Seatplus\Seat3Migrator\Tests\TestCase;
 
 uses(TestCase::class)
@@ -172,9 +171,4 @@ function mockNonVerboseCommand()
     $command->setOutput($output);
 
     return $command;
-}
-
-function isMissingTable(string $name) : bool
-{
-    return ! Schema::connection('seat3_backup')->hasTable($name);
 }

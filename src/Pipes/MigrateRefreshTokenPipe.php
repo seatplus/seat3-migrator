@@ -18,7 +18,7 @@ class MigrateRefreshTokenPipe extends AbstractMigratorPipeClass
         $this->alert('Migrating refresh_tokens');
 
         // Get all non-deleted tokens
-        $refresh_tokens = isMissingTable('refresh_tokens') ? collect() : DB::connection('seat3_backup')
+        $refresh_tokens = $this->isMissingTable('refresh_tokens') ? collect() : DB::connection('seat3_backup')
             ->table('refresh_tokens')
             ->whereIn('character_id', $this->groupObject->getCharacterIds()->toArray())
             ->whereNull('deleted_at')
