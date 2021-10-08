@@ -28,8 +28,13 @@ class Seat3MigratorServiceProvider extends ServiceProvider
     private function mergeConfigurations()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/seat3-migrator.php',
+            __DIR__ . '/../config/seat3-migrator.database.php',
             'database.connections'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__. '/../config/seat3-migrator.config.php',
+            'seat3-migrator.config'
         );
     }
 }
